@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+    <title>Task scheduler - App</title>
+</head>
+
+<body>
+    <!-- ***********Main Component*********** -->
+    <div class="container mx-auto flex flex-row h-screen py-8">
+        
+        <!-- ***** Left Hand Side ***** -->
+
+        <div class="w-1/4 bg-[#111729] rounded rounded-l-lg rounded-r-none">
+            <div class="flex flex-row justify-between px-4 pt-4 text-white text-[12px] font-bold border border-b-2 h-16">
+                <p class="text-gray-100 cursor-pointer">File</p>
+                <p class="text-gray-100 cursor-pointer">Action</p>
+                <p class="text-gray-100 cursor-pointer">Help</p>
+            </div>
+            <div class="flex flex-row space-x-4 p-6">
+                <i class="fa-duotone fa-greater-than text-gray-100 text-xl"></i>
+                <button type="submit" id="taskLibrary" class=" font-bold text-sm cursor-pointer flex flex-row content-center items-center justify-center p-1 hover:text-gray-300 text-[#111729] hover:bg-[#111729] bg-gray-400 px-4 rounded-md" >Task Library</button>
+            </div>
+        </div>
+
+        <!-- ***** Center ***** -->
+       
+        <div class="w-3/4 bg-gray-100">
+            <h3 class="text-sm py-4 ps-4 text-[#111729] font-bold border border-b-2 h-16" >Task Scheduler Summary (Last refreshed: <span id="app-Date"></span>04/07/2023 04:30:30)</h3>
+            <div class="flex flex-row justify-between px-2 pt-4">
+                <h2 class="font-bold text-xl pt-2 pl-4 pb-8">Name</h2>
+                <!-- <div id="taskList" class="mt-4 bg-red-800"></div> -->
+
+                <h2 id="taskList" class=" mr-[450px]"></h2>
+                <!-- <h2 class="font-bold text-xl pt-2 divide-x-8 divide-red-600">Status</h2>
+                <h2 class="font-bold text-xl pt-2 divide-x-4">Triggers</h2>
+                <h2 class="font-bold text-xl pt-2 divide-x-8">Next Run Time</h2> -->
+           </div>
+       </div>
+
+        
+        <!-- ***** Right Hand Side ***** -->
+       
+        <div class="w-2/4  bg-blue-200 rounded rounded-r-md rounded-s-none border border-b-2">
+            <h3 class=" font-bold border border-b-2 h-16 text-[14px] py-4 ps-4">Actions</h3>
+            
+
+            <button id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" class="text-white bg-blue-700 hover:bg-blue-800  focus:outline-none focus:ring-blue-300 font-bold text-[px] rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-5 ml-4" type="button">Task Scheduler Library <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+              </svg></button>
+            
+        <!-- ***** DropDown Menu ***** -->
+
+            <div id="dropdownDivider" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                <ul class="py-2 text-md font-medium text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-[#111729] hover:text-white flex flex-row items-center content-center" id="openModal" ><span><img src="./img/icons8-clock-96 (1).png" alt="clock-img" class="h-6 w-8"></span>Create Task</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-[#111729] hover:text-white flex flex-row items-center content-center"><span><img src="./img/icons8-import-48.png" alt="clock-img" class="h-6 w-8 "></span>Import Task</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-[#111729] hover:text-white flex flex-row items-center content-center"><span><img src="./img/icons8-refresh-48.png" alt="clock-img" class="h-6 w-8 "></span>Refresh</a>
+                  </li>
+                </ul>
+                <div class="py-2 text-xl">
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-[#111729] hover:text-white">Help</a>
+                </div>
+            </div>
+       </div>
+
+<!-- ******** Open Modal ******** -->
+<div id="myModal" class="modal hidden fixed w-full h-full top-0 left-0 flex items-center justify-center">
+  <div class="modal-content bg-gray-400 p-10 rounded shadow">
+    <h2 class="text-lg font-semibold mb-4">Task Scheduler</h2>
+    <input id="task-Input" type="text" class="border rounded px-2 py-1 mb-2" placeholder="Enter your task name">
+    <textarea name="description" id="task-desc" cols="30" rows="10" placeholder="Enter your task description"></textarea>
+    <div class="py-6">
+      <div class="flex flex-col">
+        <Label class="font-bold text-md mb-2">Program/Script</Label>
+        <input id="file-input" type="file" class="">
+      </div>
+    </div>
+
+    <button id="saveTask" class="hover:bg-blue-500 bg-blue-900 text-white font-semibold px-4 py-2 rounded mr-12" onclick="handleClick">OK</button>
+    <button id="closeModal" class="hover:bg-gray-500 bg-gray-800 text-white font-semibold px-4 py-2 rounded">Cancel</button>
+  </div>
+</div>
+
+
+</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
